@@ -57,3 +57,43 @@ touch docker-compose.yml
 touch README.md
 
 echo "Trialtron project structure created successfully!"
+#!/bin/bash
+
+# Create main project directory
+mkdir -p trialtron
+
+# Create app structure
+mkdir -p trialtron/app/{models,services,utils}
+mkdir -p trialtron/data
+
+# Create app files
+touch trialtron/app/main.py
+touch trialtron/app/config.py
+
+touch trialtron/app/models/__init__.py
+touch trialtron/app/models/document.py
+touch trialtron/app/models/user.py
+
+touch trialtron/app/services/__init__.py
+touch trialtron/app/services/document_service.py
+touch trialtron/app/services/llm_service.py
+touch trialtron/app/services/regulatory_service.py
+
+touch trialtron/app/utils/__init__.py
+touch trialtron/app/utils/helpers.py
+
+# Create data file
+touch trialtron/data/documents.json
+
+# Create root files
+touch trialtron/requirements.txt
+touch trialtron/README.md
+touch trialtron/.env
+
+# Add initial content to documents.json
+echo "[]" > trialtron/data/documents.json
+
+# Add initial content to .env
+echo "OPENAI_API_KEY=your_api_key_here" > trialtron/.env
+
+echo "Trialtron Streamlit project structure created successfully!"
