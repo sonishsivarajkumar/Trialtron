@@ -1,12 +1,17 @@
 # app/services/regulatory_service.py
+import re
+
 class RegulatoryService:
-    @staticmethod
-    def check_compliance(document_content: str):
-        # Implement regulatory compliance checking logic here
-        # This is a placeholder and should be replaced with actual compliance checking
-        compliance_issues = []
-        if "safety data" not in document_content.lower():
-            compliance_issues.append("Missing safety data section")
-        if "efficacy results" not in document_content.lower():
-            compliance_issues.append("Missing efficacy results")
-        return compliance_issues
+    def __init__(self):
+        self.compliance_rules = [
+            (r'\b(?:confidential|private)\b', "Contains confidential information"),
+            (r'\b(?:not approved|unapproved)\b', "References unapproved claims"),
+            (r'\b(?:guarantee|promise)\b', "Contains guarantee or promise statements"),
+        ]
+
+    def check_compliance(self, content):
+        issues = []
+        for pattern, issue in self.compliance_rules:
+            if re.search(pattern, content, re.IGNORECASE):
+                issues.append(issue)
+        return issues

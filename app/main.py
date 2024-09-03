@@ -1,14 +1,14 @@
 # app/main.py
 import streamlit as st
-import json
 from models.document import Document
 from services.document_service import DocumentService
 from services.llm_service import LLMService
 from services.regulatory_service import RegulatoryService
+import os
 
 # Initialize services
 document_service = DocumentService()
-llm_service = LLMService()
+llm_service = LLMService(api_key=os.environ.get("OPENAI_API_KEY"))
 regulatory_service = RegulatoryService()
 
 # Streamlit app
@@ -28,7 +28,7 @@ def main():
 def show_dashboard():
     st.header("Document Dashboard")
 
-    # List existing documents
+    # Ensure that DocumentService.get_all_documents() is implemented
     documents = document_service.get_all_documents()
     for doc in documents:
         if st.button(f"Edit: {doc.title}"):
@@ -52,12 +52,12 @@ def show_document_editor():
     # Document content
     current_doc.content = st.text_area("Document Content", current_doc.content, height=300)
 
-    # Save button
+    # Ensure that DocumentService.update_document() is implemented
     if st.button("Save Document"):
         document_service.update_document(current_doc)
         st.success("Document saved successfully!")
 
-    # Generate content button
+    # Ensure that LLMService.generate_content() is implemented
     if st.button("Generate Content"):
         prompt = f"Generate FDA submission report content for {current_doc.title}"
         generated_content = llm_service.generate_content(prompt)
@@ -70,7 +70,7 @@ def show_regulatory_checker():
     # Text area for document content
     content = st.text_area("Enter document content to check", height=300)
 
-    # Check compliance button
+    # Ensure that RegulatoryService.check_compliance() is implemented
     if st.button("Check Compliance"):
         issues = regulatory_service.check_compliance(content)
         if issues:
@@ -82,3 +82,4 @@ def show_regulatory_checker():
 
 if __name__ == "__main__":
     main()
+
